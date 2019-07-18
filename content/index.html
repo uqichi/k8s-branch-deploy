@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+    <button type="submit" onclick="buttonClicked()">Ping?</button>
+    <span id="app-text"></span>
+    <script>
+        const buttonClicked = async() => {
+            fetch('http://localhost:7000/ping', {mode: 'cors'})
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(json) {
+                    document.getElementById('app-text').innerText += json.value
+                    console.log(json.value)
+                })
+        }
+    </script>
+</body>
+</html>

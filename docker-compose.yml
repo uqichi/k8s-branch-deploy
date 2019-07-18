@@ -1,0 +1,14 @@
+version: "3"
+services:
+  golang:
+    build: .
+    ports:
+      - 7000:1323
+    volumes:
+      - .:/go/src/app
+  nginx:
+    image: nginx:1.17.1-alpine
+    ports:
+      - 8080:80
+    volumes:
+      - ./content:/usr/share/nginx/html:ro
