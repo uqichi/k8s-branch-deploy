@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
+
+	"github.com/go-redis/redis"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -42,22 +45,50 @@ func main() {
 		}
 	})
 
+	fmt.Println("REDIS_ADDR", os.Getenv("REDIS_ADDR"))
+	redisCli := redis.NewClient(&redis.Options{
+		Addr:     os.Getenv("REDIS_ADDR"),
+		Password: "",
+		DB:       0,
+	})
+
+	h := handler{
+		redisCli: redisCli,
+	}
+
 	// Routes
-	e.GET("/ping", ping)
+	e.GET("/ping", h.ping)
 
 	// Start server
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
-func ping(c echo.Context) error {
+type handler struct {
+	redisCli *redis.Client
+}
+
+func (h *handler) ping(c echo.Context) error {
 	fmt.Println("pong!")
 	fmt.Println(getCtxSub0(c))
+
+	// append to redis
+	h.redisCli.Incr("mah0jaY0")
+	// get from
+	val, err := h.redisCli.Get("mah0jaY0").Result()
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("redisval", val)
+
 	return c.JSON(http.StatusOK, struct {
 		Value     string `json:"value"`
 		SubDomain string `json:"sub_domain"`
+		RedisVal  string `json:"redis_val"`
 	}{
 		Value:     "pong!!",
 		SubDomain: getCtxSub0(c),
+		RedisVal:  val,
 	})
 }
 

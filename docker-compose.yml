@@ -1,14 +1,24 @@
 version: "3"
 services:
-  golang:
+  kkk-golang:
     build: .
     ports:
       - 7000:1323
+    environment:
+      REDIS_ADDR: kkk-redis:6379
     volumes:
       - .:/go/src/app
-  nginx:
+    depends_on:
+      - kkk-redis
+  kkk-nginx:
     image: nginx:1.17.1-alpine
     ports:
       - 8080:80
     volumes:
       - ./content:/usr/share/nginx/html:ro
+  kkk-redis:
+    image: redis:5.0.5-alpine
+    ports:
+      - 6379:6379
+    volumes:
+      - ./data/redis:/data

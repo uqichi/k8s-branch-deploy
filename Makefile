@@ -5,4 +5,4 @@ upbuild:
 down:
 	docker-compose down
 logs:
-	docker-compose logs -f golang
+	docker-compose logs -f kkk-golang
