@@ -9,13 +9,13 @@
     <span id="app-text"></span>
     <script>
         const buttonClicked = async() => {
-            fetch('http://localhost:7000/ping', {mode: 'cors'})
+            fetch('http://apple.hoge-dev.myproj.com:7000/ping', {mode: 'cors'})
                 .then(function(response) {
                     return response.json();
                 })
                 .then(function(json) {
                     document.getElementById('app-text').innerText += json.value
-                    console.log(json.value)
+                    console.log(json)
                 })
         }
     </script>
