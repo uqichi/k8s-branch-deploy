@@ -1,5 +1,4 @@
-# sample-k8s
-small sample app, which consists of some containers, for testing kubernetes (EKS).
+# k8s-branch-deploy
 
 Start in localhost:
 

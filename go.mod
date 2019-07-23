@@ -1,4 +1,4 @@
-module nginx-go-api
+module k8s-branch-deploy
 
 go 1.12
 
